@@ -3,7 +3,7 @@ pq.isFullscreen = false
 pq.testMode = false
 
 pq.title = "Protoquest"
-pq.version = "0.0.0.1"
+pq.version = "v0.0.0.1a"
 
 pq.tilemapScaleWidth = 1
 pq.tilemapScaleHeight = 1

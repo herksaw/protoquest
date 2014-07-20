@@ -32,11 +32,12 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.print(downTimer, 200, 0)
 	drawCamera()
 	testing()
 end
 
--- Check if fullscreen now
+-- Check if the game is fullscreen now
 function love.keypressed(key)
 	if key == "escape" and pq.isFullscreen == false then
 		love.window.setMode(0, 0, { fullscreen = true })
@@ -51,27 +52,54 @@ end
 function love.keyreleased(key)
 	if key == "w" or key == "s" or key == "a" or key == "d" then
 		pq.player.isIdle = true
+		downTimer = 0	
 	end
 end
 
+-- Quick hack to the pressed time
+downTimer = 0
 -- Check if player is moving
 function checkPlayerMove(dt)
 	if love.keyboard.isDown("w") then
-		pq.player.y = pq.player.y - pq.player.moveSpeed * dt
-		pq.player.anim = pq.player.walkUpAnim
-		pq.player.isIdle = false
+		downTimer = downTimer + dt		
+		if downTimer > 0.15 then
+			pq.player.y = pq.player.y - pq.player.moveSpeed * dt
+			pq.player.anim = pq.player.walkUpAnim
+			pq.player.isIdle = false
+		else
+			pq.player.anim = pq.player.walkUpAnim
+			pq.player.anim:gotoFrame(2)
+		end
 	elseif love.keyboard.isDown("s") then
-		pq.player.y = pq.player.y + pq.player.moveSpeed * dt
-		pq.player.anim = pq.player.walkDownAnim
-		pq.player.isIdle = false
+		downTimer = downTimer + dt		
+		if downTimer > 0.15 then
+			pq.player.y = pq.player.y + pq.player.moveSpeed * dt
+			pq.player.anim = pq.player.walkDownAnim
+			pq.player.isIdle = false
+		else
+			pq.player.anim = pq.player.walkDownAnim
+			pq.player.anim:gotoFrame(2)
+		end
 	elseif love.keyboard.isDown("a") then
-		pq.player.x = pq.player.x - pq.player.moveSpeed * dt
-		pq.player.anim = pq.player.walkLeftAnim
-		pq.player.isIdle = false
+		downTimer = downTimer + dt		
+		if downTimer > 0.15 then
+			pq.player.x = pq.player.x - pq.player.moveSpeed * dt
+			pq.player.anim = pq.player.walkLeftAnim
+			pq.player.isIdle = false
+		else
+			pq.player.anim = pq.player.walkLeftAnim
+			pq.player.anim:gotoFrame(2)
+		end
 	elseif love.keyboard.isDown("d") then
-		pq.player.x = pq.player.x + pq.player.moveSpeed * dt
-		pq.player.anim = pq.player.walkRightAnim
-		pq.player.isIdle = false
+		downTimer = downTimer + dt		
+		if downTimer > 0.15 then
+			pq.player.x = pq.player.x + pq.player.moveSpeed * dt
+			pq.player.anim = pq.player.walkRightAnim
+			pq.player.isIdle = false
+		else
+			pq.player.anim = pq.player.walkRightAnim
+			pq.player.anim:gotoFrame(2)
+		end
 	end
 
 	if not pq.player.isIdle then

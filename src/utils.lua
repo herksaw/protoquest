@@ -13,10 +13,10 @@ end
 function setAnim(char, filePath)
 	char.image = love.graphics.newImage(filePath)
 	char.grid = anim8.newGrid(24, 32, char.image:getWidth(), char.image:getHeight(), 0, 0, 0.15)
-	char.walkUpAnim = anim8.newAnimation(char.grid("1-3", 1), 0.2)
-	char.walkDownAnim = anim8.newAnimation(char.grid("1-3", 3), 0.2)
-	char.walkLeftAnim = anim8.newAnimation(char.grid("1-3", 4), 0.2)
-	char.walkRightAnim = anim8.newAnimation(char.grid("1-3", 2), 0.2)
+	char.walkUpAnim = anim8.newAnimation(char.grid("1-3", 1), 0.15)
+	char.walkDownAnim = anim8.newAnimation(char.grid("1-3", 3), 0.15)
+	char.walkLeftAnim = anim8.newAnimation(char.grid("1-3", 4), 0.15)
+	char.walkRightAnim = anim8.newAnimation(char.grid("1-3", 2), 0.15)
 	char.anim = char.walkDownAnim
 end
 
