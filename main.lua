@@ -28,61 +28,12 @@ end
 function love.update(dt)
 	scaleScreen()
 	checkPlayerMove(dt)
-
-	pq.cam:lookAt(pq.player.x + pq.player.width / 2, pq.player.y + pq.player.height / 2)
-	pq.cam:zoomTo(pq.tilemapScaleWidth, pq.tilemapScaleHeight)
-	--[[
-	--pq.cam:setWorld(-100 * pq.tilemapScaleWidth, -100 * pq.tilemapScaleHeight, pq.scaledTilemapWidth + 20, pq.scaledTilemapHeight + 30)
-	pq.cam:setWorld(-100, -100, pq.scaledTilemapWidth + 100, pq.scaledTilemapHeight + 100)
-	pq.cam:setWindow(0, 0, love.window.getWidth(), love.window.getHeight())
-	pq.cam:setPosition(pq.player.x + pq.player.width / 2, pq.player.y + pq.player.height / 2)
-	--pq.cam:setScale(pq.tilemapScaleWidth, pq.tilemapScaleHeight)]]
+	updateCamera()
 end
 
 function love.draw()
-	pq.cam:attach()	
-	pq.map:draw()
-	pq.player.anim:draw(pq.player.image, pq.player.x, pq.player.y)
-	pq.cam:detach()
-	--[[
-	love.graphics.push()
-	love.graphics.scale(pq.tilemapScaleWidth, pq.tilemapScaleHeight)
-	pq.map:draw()
-	pq.player.anim:draw(pq.player.image, pq.player.x, pq.player.y)
-	love.graphics.pop()
-	]]
-	--[[
-	pq.cam:draw(function(l, t, w, h)
-		love.graphics.push()
-		love.graphics.scale(pq.tilemapScaleWidth, pq.tilemapScaleHeight)
-		pq.map:draw()
-		pq.player.anim:draw(pq.player.image, pq.player.x, pq.player.y)
-		love.graphics.pop()
-	end)]]
-	--[[
-	love.graphics.push()
-	love.graphics.scale(pq.tilemapScaleWidth, pq.tilemapScaleHeight)
-	love.graphics.translate(95, 80) -- Temporarily workaround with some quick hacks
-	pq.map:draw()
-	pq.player.anim:draw(pq.player.image, 100, 100)
-	love.graphics.pop()]]
-
-	--testing
-	love.graphics.print(pq.tilemapScaleWidth.." "..pq.tilemapScaleHeight, 0, 0)
-	love.graphics.print(love.window.getWidth().." "..love.window.getHeight(), 0, 10)
-	love.graphics.print(pq.tilemapScaleWidth * pq.tilemapWidth.." "..pq.tilemapScaleHeight * pq.tilemapHeight, 0, 20)
-	love.graphics.print(pq.map.tilesets["village"].tileProperties[720].path, 0, 30)
-	
-	local x, y = pq.cam:pos()
-	love.graphics.print(x .. " " .. y, 0, 40)
-	--[[
-	local l, t, w, h = pq.cam:getWorld()
-	love.graphics.print(l .. " " .. t .. " " .. w .. " " .. h, 0, 50)
-	local l, t, w, h = pq.cam:getWindow()
-	love.graphics.print(l .. " " .. t .. " " .. w .. " " .. h, 0, 60)
-	]]
-	love.graphics.print(pq.player.x .. " " .. pq.player.y, 0, 70)
-	--testing
+	drawCamera()
+	testing()
 end
 
 -- Check if fullscreen now
@@ -130,7 +81,8 @@ function checkPlayerMove(dt)
 		pq.player.anim:update(dt)
 	elseif pq.player.isIdle then
 		if pq.player.anim.status == "playing" then
-			pq.player.anim:pauseAtStart()
+			pq.player.anim:pause()
+			pq.player.anim:gotoFrame(2)
 		end
 	end
 end

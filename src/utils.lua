@@ -3,8 +3,6 @@ atl = require("libs.atl.Loader")
 
 -- Set the scaling factors
 function scaleScreen()
-	pq.scaleWidth = love.window.getWidth() / pq.viewportWidth
-	pq.scaleHeight = love.window.getHeight() / pq.viewportHeight
 	pq.tilemapScaleWidth = love.window.getWidth() / pq.tilemapWidth / 2
 	pq.tilemapScaleHeight = love.window.getHeight() / pq.tilemapHeight / 2
 	pq.scaledTilemapWidth = pq.tilemapWidth * pq.tilemapScaleWidth
@@ -30,4 +28,16 @@ function loadMap(mapPath, filePath)
 
 	pq.tilemapWidth = pq.map.width * pq.map.tileWidth
 	pq.tilemapHeight = pq.map.height * pq.map.tileHeight
+end
+
+function updateCamera()
+	pq.cam:lookAt(pq.player.x + pq.player.width / 2, pq.player.y + pq.player.height / 2)
+	pq.cam:zoomTo(pq.tilemapScaleWidth, pq.tilemapScaleHeight)
+end
+
+function drawCamera()
+	pq.cam:attach()	
+	pq.map:draw()
+	pq.player.anim:draw(pq.player.image, pq.player.x, pq.player.y)
+	pq.cam:detach()
 end
