@@ -7,6 +7,8 @@ function scaleScreen()
 	pq.scaleHeight = love.window.getHeight() / pq.viewportHeight
 	pq.tilemapScaleWidth = love.window.getWidth() / pq.tilemapWidth / 2
 	pq.tilemapScaleHeight = love.window.getHeight() / pq.tilemapHeight / 2
+	pq.scaledTilemapWidth = pq.tilemapWidth * pq.tilemapScaleWidth
+	pq.scaledTilemapHeight = pq.tilemapHeight * pq.tilemapScaleHeight
 end
 
 -- Set the animation of characters
