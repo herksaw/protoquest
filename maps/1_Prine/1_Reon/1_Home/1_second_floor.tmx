@@ -4,21 +4,22 @@
   <image source="../../../../assets/village/village.png" trans="ff00ff" width="960" height="512"/>
   <tile id="719">
    <properties>
-    <property name="mapName" value="1_first_level.tmx"/>
-    <property name="path" value="maps/1_Prine/2_Reon_Eille_Dungeon/"/>
+    <property name="filePath" value="1_first_level.tmx"/>
+    <property name="mapPath" value="maps/1_Prine/2_Reon_Eille_Dungeon/"/>
+   </properties>
+  </tile>
+  <tile id="1649">
+   <properties>
+    <property name="filePath" value="1_first_level.tmx"/>
+    <property name="mapPath" value="maps/1_Prine/1_Reon_Eille_Dungeon/"/>
    </properties>
   </tile>
  </tileset>
  <tileset firstgid="1921" name="collidable" tilewidth="16" tileheight="16">
   <image source="../../../../assets/collidable/collidable.png" trans="ff00ff" width="64" height="64"/>
-  <tile id="0">
-   <properties>
-    <property name="type" value="no_direction"/>
-   </properties>
-  </tile>
   <tile id="4">
    <properties>
-    <property name="type" value="all_direction"/>
+    <property name="type" value="collide_all"/>
    </properties>
   </tile>
  </tileset>
@@ -34,7 +35,7 @@
  </layer>
  <layer name="collidable" width="12" height="10">
   <data encoding="base64">
-   hQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhwcAAIcHAACHBwAAhwcAAIcHAACHBwAAhwcAAIcHAACHBwAAhwcAAIcHAACHBwAAhQcAAIUHAACGBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQcAAIUHAACGBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhwcAAIcHAACLBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAggcAAIIHAACMBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQcAAIUHAACGBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACDBwAA
+   hQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAhQcAAIUHAACFBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQcAAIUHAACFBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQcAAIUHAACFBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQcAAIUHAACFBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAhQcAAIUHAACFBwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACDBwAA
   </data>
  </layer>
 </map>
