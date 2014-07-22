@@ -159,23 +159,11 @@ function pq.onCollide(dt, shapeA, shapeB)
 				pq.player.y = collidedTile.y + 16.1	
 		elseif pq.collideDirection == "bottom" then			
 				pq.player.y = collidedTile.y - 32.1	
-		elseif pq.collideDirection == "left" then			
+		elseif pq.collideDirection == "left" then
 				pq.player.x = collidedTile.x + 16.1				
 		elseif pq.collideDirection == "right" then			
-				pq.player.x = collidedTile.x - 24.1			
+				pq.player.x = collidedTile.x - 24.1
 		end
-
-		--[[
-		if checkCollideDirection(pq.player, collidedTile) == "top" then			
-			pq.player.y = collidedTile.y + 16
-		elseif checkCollideDirection(pq.player, collidedTile) == "bottom" then
-			pq.player.y = collidedTile.y - 32
-		elseif checkCollideDirection(pq.player, collidedTile) == "left" then
-			pq.player.x = collidedTile.x + 16
-		elseif checkCollideDirection(pq.player, collidedTile) == "right" then
-			pq.player.x = collidedTile.x - 24
-		end]]
-
 	elseif shapeB == pq.collidableObjects[1] then
 		for key, value in pairs(pq.collidableShapes) do
 			if shapeA == value then
@@ -196,17 +184,6 @@ function pq.onCollide(dt, shapeA, shapeB)
 		elseif pq.collideDirection == "right" then			
 				pq.player.x = collidedTile.x - 24.1
 		end
-		
-		--[[
-		if checkCollideDirection(pq.player, collidedTile) == "top" then
-			pq.player.y = collidedTile.y + 16
-		elseif checkCollideDirection(pq.player, collidedTile) == "bottom" then
-			pq.player.y = collidedTile.y - 32
-		elseif checkCollideDirection(pq.player, collidedTile) == "left" then
-			pq.player.x = collidedTile.x + 16
-		elseif checkCollideDirection(pq.player, collidedTile) == "right" then
-			pq.player.x = collidedTile.x - 24
-		end]]
 	end
 end
 

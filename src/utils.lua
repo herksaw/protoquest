@@ -37,7 +37,7 @@ function loadMap(mapPath, filePath)
 	atl.path = mapPath
 	--atl.path = "maps/"
 	pq.map = atl.load(filePath)
-	pq.map.layers["collidable"].opacity = 0
+	pq.map.layers["collidable"].visible = false
 
 	pq.tilemapWidth = pq.map.width * pq.map.tileWidth
 	pq.tilemapHeight = pq.map.height * pq.map.tileHeight
@@ -50,6 +50,7 @@ function loadCollidableTiles()
 			if key == "type" and value == "collide_all" then
 				pq.collidableTiles[#pq.collidableTiles + 1] = { x = x * tile.width, y = y * tile.height, width = 16, height = 16 }
 				pq.collidableShapes[#pq.collidableShapes + 1] = pq.hc:addRectangle(x * tile.width, y * tile.height, tile.width, tile.height)
+				pq.hc:setPassive(pq.collidableShapes[#pq.collidableShapes + 1])
 			end
 		end
 	end
@@ -80,7 +81,11 @@ end
 -- Render the scene to player
 function drawCamera()
 	pq.cam:attach()
+	pq.map.layers["front"].visible = false
+	pq.map.layers["foreground"].visible = true
+	pq.map.layers["background"].visible = true
 	pq.map:draw()
+	--[[
 	for key, value in pairs(pq.collidableShapes) do
 		value:draw("line")
 	end
@@ -88,7 +93,12 @@ function drawCamera()
 	for key, value in pairs(pq.collidableObjects) do
 		value:draw("line")
 	end
-	pq.player.anim:draw(pq.player.image, pq.player.x, pq.player.y)	
+	]]
+	pq.player.anim:draw(pq.player.image, pq.player.x, pq.player.y)
+	pq.map.layers["front"].visible = true
+	pq.map.layers["foreground"].visible = false
+	pq.map.layers["background"].visible = false
+	pq.map:draw()
 	pq.cam:detach()
 end
 
@@ -113,31 +123,6 @@ function checkCollideDirection(obj, target)
 	elseif rCollision < lCollision and rCollision < tCollision and rCollision < bCollision then
 		pq.collideDirection = "right"
 	end
-
-	--[[
-	if obj.x > target.x and obj.x <= target.x + 16 and pq.collideDirection == "none" then
-		pq.collideDirection = "left"
-	end
-	if obj.x < target.x and obj.x + 24 >= target.x and pq.collideDirection == "none" then
-		pq.collideDirection = "right"
-	end
-	if obj.y > target.y and obj.y <= target.y + 16 and pq.collideDirection == "none" then
-		pq.collideDirection = "top"
-	end
-	if obj.y < target.y and obj.y + 32 >= target.y and pq.collideDirection == "none" then
-		pq.collideDirection = "bottom"	
-	end]]
-
-	--[[
-	if obj.y > target.y and obj.y <= target.y + 16 and pq.collideDirection == "none" then
-		--pq.collideDirection = "top"
-	elseif obj.y < target.y and obj.y + 32 >= target.y and pq.collideDirection == "none" then
-		--pq.collideDirection = "bottom"
-	elseif obj.x > target.x and obj.x <= target.x + 16 and pq.collideDirection == "none" then
-		pq.collideDirection = "left"
-	elseif obj.x < target.x and obj.x + 24 >= target.x and pq.collideDirection == "none" then
-		pq.collideDirection = "right"
-	end]]
 
 	-- Taken from http://stackoverflow.com/questions/5062833/detecting-the-direction-of-a-collision
 	--[[
