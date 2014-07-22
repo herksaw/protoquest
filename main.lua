@@ -62,14 +62,6 @@ function love.draw()
 	love.graphics.print(math.floor(pq.player.y), 200, 50)
 	love.graphics.print(pq.tilemapHeight / 2, 200, 60)
 	drawCamera()
-	--[[
-	for key, value in pairs(pq.collidableShapes) do
-		value:draw("line")
-	end
-
-	for key, value in pairs(pq.collidableObjects) do
-		value:draw("line")
-	end]]
 	testing()
 end
 

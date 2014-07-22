@@ -8,17 +8,6 @@ function scaleGame()
 	pq.scaleHeight = love.window.getHeight() / pq.tilemapHeight
 	pq.scaledTilemapWidth = pq.tilemapWidth * pq.scaleWidth
 	pq.scaledTilemapHeight = pq.tilemapHeight * pq.scaleHeight
-	--[[
-	if pq.oldTilemapScaleWidth ~= pq.scaleWidth then
-		for key, value in pairs(pq.collidableShapes) do
-			value:scale(pq.scaleWidth)
-		end
-
-		for key, value in pairs(pq.collidableObjects) do
-			value:scale(pq.scaleWidth)
-		end
-		pq.oldTilemapScaleWidth = pq.scaleWidth
-	end]]
 end
 
 -- Set the animation of characters
