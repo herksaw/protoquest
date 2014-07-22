@@ -284,8 +284,8 @@ function Loader._expandTileSet(t, map)
         -- Process image
         if v.label == "image" then 
             imagePath = v.xarg.source
-            --path = directoryUp(tilesetDir .. v.xarg.source)
-            path = directoryUp(v.xarg.source) --herks, quick hack
+            path = directoryUp(tilesetDir .. v.xarg.source)
+            --path = directoryUp(v.xarg.source) --herks, quick hack
             -- If the image is in the cache then load it
             if cache[path] then
                 image = cache[path]

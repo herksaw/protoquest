@@ -18,29 +18,49 @@ function love.load()
 	love.window.setTitle(pq.title.." "..pq.version)
 	love.graphics.setBackgroundColor(0, 0, 0, 0)
 
-	loadMap("maps/1_Prine/1_Reon/1_Home/", "1_second_floor.tmx")
+	pq.cam = camera(pq.player.x + pq.player.width / 2, pq.player.y + pq.player.height / 2, 1, 1)
+	pq.hc = hardoncollider(120, onCollide, onCollideStop)
+
+	pq.mapPath = "maps/"
+	pq.filePath = "1_Prine_1_Reon_1_Home_1_second_floor.tmx"
+
+	checkMapFilePathChanged()
+
 	setAnim(pq.player, "assets/hero/chara01_a.png")
 
 	pq.player.x = pq.tilemapWidth / 2
 	pq.player.y = pq.tilemapHeight / 2
-
-	pq.cam = camera(pq.player.x + pq.player.width / 2, pq.player.y + pq.player.height / 2, 1, 1)
-
-	pq.hc = hardoncollider(120, pq.onCollide, pq.onCollideStop)
-	loadCollidableTiles()
+	loadObjects()
 end
 
+-- The call stacks procedure is important!
 function love.update(dt)
+	-- File operation
+	checkMapFilePathChanged()
+
+	-- Render operation
 	scaleGame()
-	updateCollidableTiles()
-	pq.hc:update(dt)
-	checkPlayerMove(dt)
 	updateCamera()
+
+	-- Collide operation
+	updateTiles()
+	pq.hc:update(dt)
+	checkCollideMapBounds()
+
+	-- Input operation
+	checkPlayerMove(dt)
+	
+	-- Misc
+	checkMapLoaded()	
 end
 
 function love.draw()	
 	love.graphics.print(debugText, 200, 10)
 	love.graphics.print(pq.collideDirection, 200, 20)
+	love.graphics.print(math.floor(pq.player.x), 200, 30)
+	love.graphics.print(pq.tilemapWidth / 2, 200, 40)
+	love.graphics.print(math.floor(pq.player.y), 200, 50)
+	love.graphics.print(pq.tilemapHeight / 2, 200, 60)
 	drawCamera()
 	--[[
 	for key, value in pairs(pq.collidableShapes) do
@@ -75,8 +95,10 @@ end
 function love.keypressed(key)
 	if key == "p" then
 		--table.save(pq.collidableShapes, "test.txt")
-		table.save(pq.collidableTiles, "test.txt")
+		--table.save(pq.collidableTiles, "test.txt")
 		--table.save(pq.collidableObjects, "test.txt")
+		--table.save(pq.teleportTiles, "test.txt")
+		--pq.hc:setSolid(pq.collidableObjects[1])
 	end
 end
 
@@ -140,54 +162,80 @@ function checkPlayerMove(dt)
 end
 
 debugText = "uncollide"
-function pq.onCollide(dt, shapeA, shapeB)
+function onCollide(dt, shapeA, shapeB)
 	debugText = "collided!"
-	local collidedTile = nil
+	local tile = nil
 
-	if shapeA == pq.collidableObjects[1] then
+	if shapeA == pq.collidableObjects[1] then		
 		for key, value in pairs(pq.collidableShapes) do
 			if shapeB == value then
-				collidedTile = pq.collidableTiles[key]
+				tile = pq.collidableTiles[key]
+				checkObjectCollidable(shapeA, shapeB, tile)
 			end
 		end
-
-		if pq.collideDirection == "none" then
-			checkCollideDirection(pq.player, collidedTile)
-		end	
-
-		if pq.collideDirection == "top" then			
-				pq.player.y = collidedTile.y + 16.1	
-		elseif pq.collideDirection == "bottom" then			
-				pq.player.y = collidedTile.y - 32.1	
-		elseif pq.collideDirection == "left" then
-				pq.player.x = collidedTile.x + 16.1				
-		elseif pq.collideDirection == "right" then			
-				pq.player.x = collidedTile.x - 24.1
+		for key, value in pairs(pq.teleportShapes) do
+			if shapeB == value then
+				tile = pq.teleportTiles[key]
+				checkObjectTeleport(shapeA, shapeB, tile)
+			end
 		end
 	elseif shapeB == pq.collidableObjects[1] then
 		for key, value in pairs(pq.collidableShapes) do
 			if shapeA == value then
-				collidedTile = pq.collidableTiles[key]
+				tile = pq.collidableTiles[key]
+				checkObjectCollidable(shapeA, shapeB, tile)
 			end
 		end
-		
-		if pq.collideDirection == "none" then
-			checkCollideDirection(pq.player, collidedTile)
-		end
-
-		if pq.collideDirection == "top" then			
-				pq.player.y = collidedTile.y + 16.1
-		elseif pq.collideDirection == "bottom" then			
-				pq.player.y = collidedTile.y - 32.1		
-		elseif pq.collideDirection == "left" then		
-				pq.player.x = collidedTile.x + 16.1				
-		elseif pq.collideDirection == "right" then			
-				pq.player.x = collidedTile.x - 24.1
+		for key, value in pairs(pq.teleportShapes) do
+			if shapeA == value then
+				tile = pq.teleportTiles[key]
+				checkObjectTeleport(shapeA, shapeB, tile)
+			end
 		end
 	end
 end
 
-function pq.onCollideStop(dt, shapeA, shapeB)
+function onCollideStop(dt, shapeA, shapeB)
 	debugText = "uncollided!"
 	pq.collideDirection = "none"
+end
+
+function checkObjectCollidable(shapeA, shapeB, tile)
+	if shapeA == pq.collidableObjects[1] then
+		if pq.collideDirection == "none" then
+			checkCollideDirection(pq.player, tile)
+		end	
+
+		if pq.collideDirection == "top" then			
+			pq.player.y = tile.y + 16.1	
+		elseif pq.collideDirection == "bottom" then			
+			pq.player.y = tile.y - 32.1	
+		elseif pq.collideDirection == "left" then
+			pq.player.x = tile.x + 16.1
+		elseif pq.collideDirection == "right" then			
+			pq.player.x = tile.x - 24.1
+		end
+	elseif shapeB == pq.collidableObjects[1] then		
+		if pq.collideDirection == "none" then
+			checkCollideDirection(pq.player, tile)
+		end
+
+		if pq.collideDirection == "top" then			
+			pq.player.y = tile.y + 16.1
+		elseif pq.collideDirection == "bottom" then
+			pq.player.y = tile.y - 32.1
+		elseif pq.collideDirection == "left" then		
+			pq.player.x = tile.x + 16.1
+		elseif pq.collideDirection == "right" then			
+			pq.player.x = tile.x - 24.1
+		end
+	end
+end
+
+function checkObjectTeleport(shapeA, shapeB, tile)
+	if shapeA == pq.collidableObjects[1] then
+		pq.filePath = tile.filePath
+	elseif shapeB == pq.collidableObjects[1] then
+		pq.filePath = tile.filePath
+	end
 end

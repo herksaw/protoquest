@@ -14,6 +14,11 @@ pq.scaleWidth = 1
 pq.oldTilemapScaleWidth = 1
 
 pq.map = nil
+pq.mapPath = "maps/"
+pq.filePath = ""
+pq.oldFilePath = ""
+
+pq.mapLoaded = false
 
 pq.player = nil
 
@@ -22,3 +27,6 @@ pq.collidableTiles = {} -- Immovable objects tiles
 pq.collidableObjects = {} -- Moveable objects
 
 pq.collideDirection = "none"
+
+pq.teleportShapes = {}
+pq.teleportTiles = {}

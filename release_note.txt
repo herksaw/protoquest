@@ -3,12 +3,11 @@ Protoquest
 
 A role-playing game.
 
-Current version
----------------
-
-v0.0.0.1a
-
+v0.0.0.1b (22/07/14)
+--------------------
 -Basic setup.
 -Added camera.
 -Fixed a bug related to keyboard sensitivity.
 -Added basic collision detection for tilemap.
+-Added world bounds.
+-Added basic portal support.
